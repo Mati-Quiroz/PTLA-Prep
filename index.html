@@ -1,18 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
- 
-  <head>
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PTLA Practice</title>
 
 <link rel="stylesheet" href="style.css">
-
 <link rel="manifest" href="manifest.json">
-
 <meta name="theme-color" content="#80EF80">
 
-    <!-- Google Analytics -->
+<!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-VHVES2FMW5"></script>
 
 <script>
@@ -26,45 +23,64 @@ gtag('js', new Date());
 
 gtag('config', 'G-VHVES2FMW5');
 </script>
-  
-  </head>
 
-  
+</head>
 <body>
 
-<div id="inicio">
+<!-- MENÚ PRINCIPAL -->
+<div id="menuPrincipal">
 
-  <img src="icon-512.png" alt="Logo PTLA" class="logo">
+  <img src="icon-512.png" alt="Logo PTLA" class="logo logo-principal">
 
-    <h1>PTLA PRACTICE</h1>
+  <h1>PTLA PRACTICE</h1>
 
-    <p class="subtitulo">
-        by Matías Quiroz
-    </p>
+  <p class="subtitulo">by Matías Quiroz</p>
 
-    <div class="buscador-box">
-
-  <input 
-    type="text" 
-    id="buscador" 
-    placeholder="Buscar palabra clave..."
-  >
-
-  <div id="resultadosBusqueda"></div>
+  <div class="menu-opciones">
+    <button id="btnEstudio">ESTUDIO POR MATERIAS</button>
+    <button id="btnTest">MODO TEST</button>
+  </div>
 
 </div>
 
-<h2>Selecciona una materia</h2>
+<!-- ESTUDIO POR MATERIAS -->
+<div id="inicio" style="display:none;">
 
-<div id="materias"></div>
+  <img src="icon-512.png" alt="Logo PTLA" class="logo logo-pequeno">
+
+  <h1>ESTUDIO POR MATERIAS</h1>
+
+  <div class="buscador-box">
+
+    <input 
+      type="text" 
+      id="buscador" 
+      placeholder="Buscar palabra clave..."
+    >
+
+    <div id="resultadosBusqueda"></div>
+
+  </div>
+
+  <h2>Selecciona una materia</h2>
+
+  <div id="materias"></div>
+
+  <button id="volverMenuDesdeMaterias" class="boton-secundario">
+    Volver al menú principal
+  </button>
 
 </div>
 
+<!-- QUIZ / TEST -->
 <div id="quiz" style="display:none;">
+
   <div class="barra">
     <div id="contador">Pregunta 0/0</div>
     <div id="aciertos">Aciertos: 0</div>
     <div id="fallos">Fallos: 0</div>
+    <div id="porcentaje">0%</div>
+    <div id="timer">00:00</div>
   </div>
 
   <div class="pregunta-container">
@@ -73,14 +89,23 @@ gtag('config', 'G-VHVES2FMW5');
   </div>
 
   <div id="resultado"></div>
+
   <button id="siguiente">Siguiente</button>
   <button id="volver">Volver a materias</button>
+
 </div>
 
+<!-- RESULTADO FINAL -->
 <div id="final" style="display:none;">
-  <h1>Resultado Final</h1>
+
+  <h1 id="tituloFinal">Resultado Final</h1>
+
   <div id="resumen"></div>
-  <button onclick="location.reload()">Volver al Inicio</button>
+
+  <button id="volverMenuFinal">
+    Volver al menú principal
+  </button>
+
 </div>
 
 <script src="app.js"></script>
