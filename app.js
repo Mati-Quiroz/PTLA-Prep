@@ -35,7 +35,6 @@ function cargarBancoPreguntas() {
 }
 
 asignarClick("btnEstudio", () => {
-  alert("CLICK ESTUDIO FUNCIONA");
   mostrarPantalla("inicio");
 });
 
