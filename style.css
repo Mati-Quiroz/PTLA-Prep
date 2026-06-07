@@ -191,3 +191,53 @@ body{
     margin-bottom:30px;
     color:#f5fff5;
 }
+
+.buscador-box{
+    max-width:430px;
+    margin:0 auto 30px auto;
+}
+
+#buscador{
+    width:100%;
+    box-sizing:border-box;
+    padding:16px 22px;
+    font-size:18px;
+    border:3px solid #111;
+    border-radius:40px;
+    outline:none;
+    background:white;
+    color:#111;
+}
+
+#buscador::placeholder{
+    color:#555;
+}
+
+#resultadosBusqueda{
+    margin-top:12px;
+}
+
+.resultado-busqueda{
+    background:white;
+    color:#111;
+    padding:14px;
+    margin:8px 0;
+    border-radius:16px;
+    text-align:left;
+    cursor:pointer;
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+}
+
+.resultado-busqueda:hover{
+    transform:scale(1.02);
+}
+
+.resultado-materia{
+    font-weight:bold;
+    color:#007A4D;
+    margin-bottom:5px;
+}
+
+.resultado-pregunta{
+    font-size:14px;
+}
