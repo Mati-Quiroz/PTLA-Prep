@@ -1,5 +1,3 @@
-alert("APP.JS CARGADO");
-
 let banco = [];
 let preguntasMateria = [];
 let indice = 0;
@@ -11,8 +9,15 @@ let timerInterval = null;
 let segundosRestantes = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
+  alert("DOM LISTO");
+
   configurarBotonesPrincipales();
+
+  alert("BOTONES CONFIGURADOS");
+
   cargarBancoPreguntas();
+
+  alert("BANCO SOLICITADO");
 });
 
 function cargarBancoPreguntas(){
