@@ -487,3 +487,15 @@ function irAPregunta(preguntaObjetivo) {
   mostrarPantalla("quiz");
   mostrarPregunta();
 }
+window.onload = function() {
+  var b1 = document.getElementById("btnEstudio");
+  var b2 = document.getElementById("btnTest");
+  if (b1) b1.onclick = function() { mostrarPantalla("inicio"); };
+  if (b2) b2.onclick = function() {
+    if (!banco || banco.length === 0) {
+      alert("Cargando...");
+      return;
+    }
+    iniciarModoTest();
+  };
+};
