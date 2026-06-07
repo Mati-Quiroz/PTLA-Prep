@@ -23,28 +23,31 @@ fetch("./banco_preguntas_ptla.json")
       }
       return response.json();
     })
-    .then(data => {
+.then(data => {
 
-  banco = data;
+    banco = data;
 
-  console.log("BANCO CARGADO:", banco.length);
+    console.log("BANCO CARGADO:", banco.length);
 
-  cargarMaterias();
+    cargarMaterias();
 
-  console.log("MATERIAS CARGADAS");
+    console.log("MATERIAS CARGADAS");
 
-  activarBuscador();
+    activarBuscador();
 
 })
-    .catch(error => {
-      console.error("Error:", error);
-      alert("No se pudo cargar el banco de preguntas.");
-    });
-}
+.catch(error => {
 
-asignarClick("btnEstudio", () => {
-  mostrarPantalla("inicio");
+    console.error("Error:", error);
+
+    alert("No se pudo cargar el banco de preguntas.");
+
 });
+function configurarBotonesPrincipales() {
+
+  asignarClick("btnEstudio", () => {
+    mostrarPantalla("inicio");
+  });
 
   asignarClick("btnTest", () => {
     if (banco.length === 0) {
@@ -85,7 +88,6 @@ asignarClick("btnEstudio", () => {
     mostrarPregunta();
   });
 }
-
 function asignarClick(id, accion) {
   const elemento = document.getElementById(id);
 
