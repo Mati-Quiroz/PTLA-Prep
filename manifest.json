@@ -9,9 +9,9 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "PTLA PRACTICE.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
+  "src": "PTLA PRACTICE.png",
+  "sizes": "1254x1254",
+  "type": "image/png"
+}
   ]
 }
