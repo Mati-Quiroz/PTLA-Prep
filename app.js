@@ -16,7 +16,7 @@ function iniciarApp() {
 }
 
 function cargarBancoPreguntas() {
-  fetch("./banco_preguntas_ptla.json")
+fetch("./banco_preguntas_ptla.json")
     .then(response => {
       if (!response.ok) {
         throw new Error("No se pudo cargar el banco de preguntas");
