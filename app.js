@@ -34,10 +34,10 @@ function cargarBancoPreguntas() {
     });
 }
 
-function configurarBotonesPrincipales() {
-  asignarClick("btnEstudio", () => {
-    mostrarPantalla("inicio");
-  });
+asignarClick("btnEstudio", () => {
+  alert("CLICK ESTUDIO FUNCIONA");
+  mostrarPantalla("inicio");
+});
 
   asignarClick("btnTest", () => {
     if (banco.length === 0) {
