@@ -16,33 +16,42 @@ function iniciarApp() {
 }
 
 function cargarBancoPreguntas() {
-fetch("./banco_preguntas_ptla.json")
+
+  fetch("./banco_preguntas_ptla.json")
     .then(response => {
+
       if (!response.ok) {
         throw new Error("No se pudo cargar el banco de preguntas");
       }
+
       return response.json();
+
     })
-.then(data => {
 
-    banco = data;
+    .then(data => {
 
-    console.log("BANCO CARGADO:", banco.length);
+      banco = data;
 
-    cargarMaterias();
+      console.log("BANCO CARGADO:", banco.length);
 
-    console.log("MATERIAS CARGADAS");
+      cargarMaterias();
 
-    activarBuscador();
+      console.log("MATERIAS CARGADAS");
 
-})
-.catch(error => {
+      activarBuscador();
 
-    console.error("Error:", error);
+    })
 
-    alert("No se pudo cargar el banco de preguntas.");
+    .catch(error => {
 
-});
+      console.error("Error:", error);
+
+      alert("No se pudo cargar el banco de preguntas.");
+
+    });
+
+}
+
 function configurarBotonesPrincipales() {
 
   asignarClick("btnEstudio", () => {
@@ -50,12 +59,14 @@ function configurarBotonesPrincipales() {
   });
 
   asignarClick("btnTest", () => {
+
     if (banco.length === 0) {
-      alert("El banco de preguntas aún se está cargando. Intenta nuevamente.");
+      alert("El banco de preguntas aún se está cargando.");
       return;
     }
 
     iniciarModoTest();
+
   });
 
   asignarClick("volverMenuDesdeMaterias", () => {
@@ -68,6 +79,7 @@ function configurarBotonesPrincipales() {
   });
 
   asignarClick("volver", () => {
+
     detenerTimer();
 
     if (modoActual === "test") {
@@ -75,18 +87,24 @@ function configurarBotonesPrincipales() {
     } else {
       mostrarPantalla("inicio");
     }
+
   });
 
- asignarClick("siguiente", () => {
-  indice++;
+  asignarClick("siguiente", () => {
 
-  if (indice >= preguntasMateria.length) {
-    finalizar();
-    return;
-  }
+    indice++;
 
-  mostrarPregunta();
-});  
+    if (indice >= preguntasMateria.length) {
+      finalizar();
+      return;
+    }
+
+    mostrarPregunta();
+
+  });
+
+}
+
 function asignarClick(id, accion) {
   const elemento = document.getElementById(id);
 
