@@ -159,32 +159,34 @@ body{
 }
 
 @media(max-width:600px){
+
+    .logo{
+        width:110px;
+        max-width:35%;
+    }
+
     #inicio h1{
-        font-size:36px;
+        font-size:28px;
     }
 
-    #pregunta{
-        font-size:21px;
-    }
-
-    .opcion{
-        font-size:17px;
-    }
-
-    .barra{
+    .subtitulo{
         font-size:14px;
     }
+
 }
+
 .logo{
-    width:90px;
+    width:140px;
+    max-width:40%;
+    height:auto;
+    display:block;
+    margin:15px auto;
+    border-radius:25px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
 }
 
 #inicio h1{
     font-size:34px;
-}
-
-.subtitulo{
-    font-size:16px;
 }
 
 .subtitulo{
