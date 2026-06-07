@@ -321,10 +321,11 @@ body{
 
 @media(max-width:600px){
 
-    .logo-principal{
-        width:150px;
-        max-width:45%;
-    }
+  .logo-principal{
+    width:180px;
+    display:block;
+    margin:0 auto;
+}
 
     .logo-pequeno{
         width:75px;
@@ -336,7 +337,21 @@ body{
         padding:18px;
     }
 
-    #menuPrincipal h1{
-        font-size:34px;
-    }
+   #menuPrincipal{
+    text-align:center;
+    padding:30px 20px;
+}
+}
+#menuPrincipal h1{
+    text-align:center;
+    margin-top:20px;
+    margin-bottom:10px;
+    color:white;
+    font-size:60px;
+}
+#menuPrincipal .subtitulo{
+    text-align:center;
+    color:white;
+    font-size:22px;
+    margin-bottom:40px;
 }
