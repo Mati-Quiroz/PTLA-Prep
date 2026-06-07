@@ -77,17 +77,17 @@ function configurarBotonesPrincipales() {
     }
   });
 
-  asignarClick("siguiente", () => {
-    indice++;
+ asignarClick("siguiente", () => {
+  indice++;
 
-    if (indice >= preguntasMateria.length) {
-      finalizar();
-      return;
-    }
+  if (indice >= preguntasMateria.length) {
+    finalizar();
+    return;
+  }
 
-    mostrarPregunta();
-  });
-}
+  mostrarPregunta();
+});
+  
 function asignarClick(id, accion) {
   const elemento = document.getElementById(id);
 
