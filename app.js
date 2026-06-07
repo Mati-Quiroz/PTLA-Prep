@@ -86,8 +86,7 @@ function configurarBotonesPrincipales() {
   }
 
   mostrarPregunta();
-});
-  
+});  
 function asignarClick(id, accion) {
   const elemento = document.getElementById(id);
 
