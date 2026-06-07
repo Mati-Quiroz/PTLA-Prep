@@ -96,7 +96,7 @@ body{
 
 #resultado{
     text-align:center;
-    font-size:19px;
+    font-size:30px;
     font-weight:bold;
     margin:20px;
     padding:15px;
@@ -517,4 +517,15 @@ body{
     font-size:18px !important;
     font-weight:bold !important;
     box-shadow:0 8px 20px rgba(0,0,0,0.2) !important;
+}
+
+.aviso-legal {
+    max-width: 360px;
+    margin: 24px auto 0 auto;
+    font-size: 11px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.6;
+    text-align: center;
+    padding: 0 10px;
 }
