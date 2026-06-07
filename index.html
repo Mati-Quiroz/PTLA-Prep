@@ -120,6 +120,19 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("./service-worker.js");
 }
 </script>
+<script>
+document.addEventListener("click", function(e) {
 
+  if (e.target.id === "btnEstudio") {
+    document.getElementById("menuPrincipal").style.display = "none";
+    document.getElementById("inicio").style.display = "block";
+  }
+
+  if (e.target.id === "btnTest") {
+    iniciarModoTest();
+  }
+
+});
+</script>
 </body>
 </html>
