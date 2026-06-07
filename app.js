@@ -24,10 +24,18 @@ fetch("./banco_preguntas_ptla.json")
       return response.json();
     })
     .then(data => {
-      banco = data;
-      cargarMaterias();
-      activarBuscador();
-    })
+
+  banco = data;
+
+  console.log("BANCO CARGADO:", banco.length);
+
+  cargarMaterias();
+
+  console.log("MATERIAS CARGADAS");
+
+  activarBuscador();
+
+})
     .catch(error => {
       console.error("Error:", error);
       alert("No se pudo cargar el banco de preguntas.");
