@@ -1,4 +1,4 @@
-const CACHE_NAME = "ptla-practice-v2";
+const CACHE_NAME = "ptla-practice-v3";
 
 const urlsToCache = [
   "/PTLA-Prep/",
@@ -6,7 +6,7 @@ const urlsToCache = [
   "/PTLA-Prep/style.css",
   "/PTLA-Prep/app.js",
   "/PTLA-Prep/banco_preguntas_ptla.json",
-  "/PTLA-Prep/PTLA PRACTICE.png",
+"/PTLA-Prep/icon-512.png",
   "/PTLA-Prep/manifest.json"
 ];
 
