@@ -487,28 +487,3 @@ function irAPregunta(preguntaObjetivo) {
   mostrarPantalla("quiz");
   mostrarPregunta();
 }
-// PARCHE PTLA-REBOOT-2026: botones principales
-window.addEventListener("load", () => {
-  const btnEstudio = document.getElementById("btnEstudio");
-  const btnTest = document.getElementById("btnTest");
-
-  if (btnEstudio) {
-    btnEstudio.onclick = () => {
-      console.log("CLICK ESTUDIO");
-      mostrarPantalla("inicio");
-    };
-  }
-
-  if (btnTest) {
-    btnTest.onclick = () => {
-      console.log("CLICK MODO TEST");
-
-      if (!banco || banco.length === 0) {
-        alert("El banco de preguntas aún se está cargando. Espera unos segundos.");
-        return;
-      }
-
-      iniciarModoTest();
-    };
-  }
-});
