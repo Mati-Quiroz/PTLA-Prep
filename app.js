@@ -8,64 +8,116 @@ let modoActual = "materia";
 let timerInterval = null;
 let segundosRestantes = 0;
 
-fetch("banco_preguntas_ptla.json")
-  .then(response => response.json())
-  .then(data => {
-    banco = data;
-    configurarBotonesPrincipales();
-    cargarMaterias();
-    activarBuscador();
-  });
+document.addEventListener("DOMContentLoaded", () => {
+  configurarBotonesPrincipales();
+  cargarBancoPreguntas();
+});
+
+function cargarBancoPreguntas(){
+  fetch("banco_preguntas_ptla.json")
+    .then(response => response.json())
+    .then(data => {
+      banco = data;
+      cargarMaterias();
+      activarBuscador();
+    })
+    .catch(error => {
+      console.error("Error cargando banco de preguntas:", error);
+      alert("No se pudo cargar el banco de preguntas. Revisa el archivo JSON.");
+    });
+}
 
 function configurarBotonesPrincipales(){
 
-  document.getElementById("btnEstudio").addEventListener("click", () => {
-    mostrarPantalla("inicio");
-  });
+  const btnEstudio = document.getElementById("btnEstudio");
+  const btnTest = document.getElementById("btnTest");
+  const volverMenuDesdeMaterias = document.getElementById("volverMenuDesdeMaterias");
+  const volverMenuFinal = document.getElementById("volverMenuFinal");
+  const volver = document.getElementById("volver");
+  const siguiente = document.getElementById("siguiente");
 
-  document.getElementById("btnTest").addEventListener("click", () => {
-    iniciarModoTest();
-  });
-
-  document.getElementById("volverMenuDesdeMaterias").addEventListener("click", () => {
-    mostrarPantalla("menuPrincipal");
-  });
-
-  document.getElementById("volverMenuFinal").addEventListener("click", () => {
-    detenerTimer();
-    mostrarPantalla("menuPrincipal");
-  });
-
-  document.getElementById("volver").addEventListener("click", () => {
-    detenerTimer();
-
-    if(modoActual === "test"){
-      mostrarPantalla("menuPrincipal");
-    }else{
+  if(btnEstudio){
+    btnEstudio.addEventListener("click", () => {
       mostrarPantalla("inicio");
-    }
-  });
+    });
+  }
 
+  if(btnTest){
+    btnTest.addEventListener("click", () => {
+      if(banco.length === 0){
+        alert("Aún se está cargando el banco de preguntas. Intenta nuevamente en unos segundos.");
+        return;
+      }
+      iniciarModoTest();
+    });
+  }
+
+  if(volverMenuDesdeMaterias){
+    volverMenuDesdeMaterias.addEventListener("click", () => {
+      mostrarPantalla("menuPrincipal");
+    });
+  }
+
+  if(volverMenuFinal){
+    volverMenuFinal.addEventListener("click", () => {
+      detenerTimer();
+      mostrarPantalla("menuPrincipal");
+    });
+  }
+
+  if(volver){
+    volver.addEventListener("click", () => {
+      detenerTimer();
+
+      if(modoActual === "test"){
+        mostrarPantalla("menuPrincipal");
+      }else{
+        mostrarPantalla("inicio");
+      }
+    });
+  }
+
+  if(siguiente){
+    siguiente.addEventListener("click", () => {
+      indice++;
+
+      if(indice >= preguntasMateria.length){
+        finalizar();
+        return;
+      }
+
+      mostrarPregunta();
+    });
+  }
 }
 
 function mostrarPantalla(pantalla){
 
-  document.getElementById("menuPrincipal").style.display = "none";
-  document.getElementById("inicio").style.display = "none";
-  document.getElementById("quiz").style.display = "none";
-  document.getElementById("final").style.display = "none";
+  const pantallas = ["menuPrincipal", "inicio", "quiz", "final"];
 
-  document.getElementById(pantalla).style.display = "block";
+  pantallas.forEach(id => {
+    const elemento = document.getElementById(id);
+    if(elemento){
+      elemento.style.display = "none";
+    }
+  });
 
+  const pantallaActiva = document.getElementById(pantalla);
+
+  if(pantallaActiva){
+    pantallaActiva.style.display = "block";
+  }
 }
 
-function cargarMaterias() {
-
-  const materias = [...new Set(banco.map(p => p.materia))];
+function cargarMaterias(){
 
   const contenedor = document.getElementById("materias");
 
+  if(!contenedor) return;
+
   contenedor.innerHTML = "";
+
+  const materias = [...new Set(banco.map(p => p.materia))];
 
   materias.forEach(materia => {
 
@@ -78,10 +130,9 @@ function cargarMaterias() {
       <small>${porcentaje}</small>
     `;
 
-    btn.onclick = () => iniciarMateria(materia);
+    btn.addEventListener("click", () => iniciarMateria(materia));
 
     contenedor.appendChild(btn);
-
   });
 }
 
@@ -89,9 +140,7 @@ function iniciarMateria(materia){
 
   modoActual = "materia";
 
-  preguntasMateria = banco.filter(
-    p => p.materia === materia
-  );
+  preguntasMateria = banco.filter(p => p.materia === materia);
 
   indice = 0;
   aciertos = 0;
@@ -99,10 +148,10 @@ function iniciarMateria(materia){
 
   detenerTimer();
 
-  document.getElementById("timer").innerText = "";
+  const timer = document.getElementById("timer");
+  if(timer) timer.innerText = "";
 
   mostrarPantalla("quiz");
-
   mostrarPregunta();
 }
 
@@ -116,16 +165,11 @@ function iniciarModoTest(){
 
   materias.forEach(materia => {
 
-    const preguntasDeMateria = banco.filter(
-      p => p.materia === materia
-    );
+    const preguntasDeMateria = banco.filter(p => p.materia === materia);
 
     const mezcladas = mezclarArray(preguntasDeMateria);
 
-    preguntasMateria.push(
-      ...mezcladas.slice(0,10)
-    );
-
+    preguntasMateria.push(...mezcladas.slice(0, 10));
   });
 
   preguntasMateria = mezclarArray(preguntasMateria);
@@ -137,13 +181,17 @@ function iniciarModoTest(){
   iniciarTimer(90 * 60);
 
   mostrarPantalla("quiz");
-
   mostrarPregunta();
 }
 
 function mostrarPregunta(){
 
   const preguntaActual = preguntasMateria[indice];
+
+  if(!preguntaActual){
+    finalizar();
+    return;
+  }
 
   document.getElementById("contador").innerText =
     `Pregunta ${indice + 1}/${preguntasMateria.length}`;
@@ -156,89 +204,63 @@ function mostrarPregunta(){
 
   actualizarPorcentaje();
 
-  document.getElementById("pregunta").innerText =
-    preguntaActual.pregunta;
+  document.getElementById("pregunta").innerText = preguntaActual.pregunta;
 
-  document.getElementById("resultado").innerHTML = "";
-  document.getElementById("resultado").className = "";
+  const resultado = document.getElementById("resultado");
+  resultado.innerHTML = "";
+  resultado.className = "";
 
   const opcionesDiv = document.getElementById("opciones");
-
   opcionesDiv.innerHTML = "";
 
-  Object.entries(preguntaActual.opciones)
-    .forEach(([letra,texto]) => {
+  Object.entries(preguntaActual.opciones).forEach(([letra, texto]) => {
 
-      const btn = document.createElement("button");
+    const btn = document.createElement("button");
 
-      btn.className = "opcion";
+    btn.className = "opcion";
+    btn.innerText = `${letra}. ${texto}`;
 
-      btn.innerText = `${letra}. ${texto}`;
+    btn.addEventListener("click", () => responder(letra, preguntaActual));
 
-      btn.onclick = () => responder(letra,preguntaActual);
-
-      opcionesDiv.appendChild(btn);
-
-    });
+    opcionesDiv.appendChild(btn);
+  });
 }
 
-function responder(letra,pregunta){
+function responder(letra, pregunta){
 
   const resultado = document.getElementById("resultado");
 
   if(letra === pregunta.correcta){
 
-      aciertos++;
+    aciertos++;
 
-      resultado.innerHTML = "✔ CORRECTO";
-
-      resultado.className = "correcto";
+    resultado.innerHTML = "✔ CORRECTO";
+    resultado.className = "correcto";
 
   }else{
 
-      fallos++;
+    fallos++;
 
-      guardarPreguntaFallada(pregunta);
+    guardarPreguntaFallada(pregunta);
 
-      resultado.innerHTML = `
-        ✘ INCORRECTO<br>
-        Respuesta correcta: ${pregunta.correcta}<br><br>
-        ${pregunta.respuesta_texto || ""}
-      `;
+    resultado.innerHTML = `
+      ✘ INCORRECTO<br>
+      Respuesta correcta: ${pregunta.correcta}<br><br>
+      ${pregunta.respuesta_texto || ""}
+    `;
 
-      resultado.className = "incorrecto";
+    resultado.className = "incorrecto";
   }
 
   guardarEstadisticaPregunta(pregunta, letra === pregunta.correcta);
 
-  document.querySelectorAll(".opcion")
-    .forEach(b => b.disabled = true);
+  document.querySelectorAll(".opcion").forEach(b => b.disabled = true);
 
-  document.getElementById("aciertos").innerText =
-    `Aciertos: ${aciertos}`;
-
-  document.getElementById("fallos").innerText =
-    `Fallos: ${fallos}`;
+  document.getElementById("aciertos").innerText = `Aciertos: ${aciertos}`;
+  document.getElementById("fallos").innerText = `Fallos: ${fallos}`;
 
   actualizarPorcentaje();
 }
-
-document
-.getElementById("siguiente")
-.addEventListener("click",()=>{
-
-  indice++;
-
-  if(indice >= preguntasMateria.length){
-
-      finalizar();
-
-      return;
-  }
-
-  mostrarPregunta();
-
-});
 
 function finalizar(){
 
@@ -248,8 +270,9 @@ function finalizar(){
 
   const total = aciertos + fallos;
 
-  const porcentaje =
-    total > 0 ? Math.round((aciertos / total) * 100) : 0;
+  const porcentaje = total > 0
+    ? Math.round((aciertos / total) * 100)
+    : 0;
 
   let estado = "";
 
@@ -259,14 +282,11 @@ function finalizar(){
       ? `<div class="aprobado">APROBADO</div>`
       : `<div class="reprobado">REPROBADO</div>`;
 
-    document.getElementById("tituloFinal").innerText =
-      "Resultado Modo Test";
+    document.getElementById("tituloFinal").innerText = "Resultado Modo Test";
 
   }else{
 
-    document.getElementById("tituloFinal").innerText =
-      "Resultado de Materia";
-
+    document.getElementById("tituloFinal").innerText = "Resultado de Materia";
   }
 
   document.getElementById("resumen").innerHTML = `
@@ -284,17 +304,15 @@ function actualizarPorcentaje(){
 
   const total = aciertos + fallos;
 
-  const porcentaje =
-    total > 0 ? Math.round((aciertos / total) * 100) : 0;
+  const porcentaje = total > 0
+    ? Math.round((aciertos / total) * 100)
+    : 0;
 
-  document.getElementById("porcentaje").innerText =
-    `${porcentaje}%`;
-}
+  const porcentajeDiv = document.getElementById("porcentaje");
 
-function mezclarArray(array){
-
-  return [...array].sort(() => Math.random() - 0.5);
-
+  if(porcentajeDiv){
+    porcentajeDiv.innerText = `${porcentaje}%`;
+  }
 }
 
 function iniciarTimer(segundos){
@@ -312,12 +330,10 @@ function iniciarTimer(segundos){
     actualizarTimer();
 
     if(segundosRestantes <= 0){
-
       finalizar();
-
     }
 
-  },1000);
+  }, 1000);
 }
 
 function detenerTimer(){
@@ -330,18 +346,25 @@ function detenerTimer(){
 
 function actualizarTimer(){
 
+  const timer = document.getElementById("timer");
+
+  if(!timer) return;
+
   const minutos = Math.floor(segundosRestantes / 60);
   const segundos = segundosRestantes % 60;
 
-  document.getElementById("timer").innerText =
+  timer.innerText =
     `${String(minutos).padStart(2,"0")}:${String(segundos).padStart(2,"0")}`;
+}
+
+function mezclarArray(array){
+
+  return [...array].sort(() => Math.random() - 0.5);
 }
 
 function guardarPreguntaFallada(pregunta){
 
-  let falladas = JSON.parse(
-    localStorage.getItem("preguntasFalladas") || "[]"
-  );
+  let falladas = JSON.parse(localStorage.getItem("preguntasFalladas") || "[]");
 
   const existe = falladas.find(p => p.id === pregunta.id);
 
@@ -349,10 +372,7 @@ function guardarPreguntaFallada(pregunta){
     falladas.push(pregunta);
   }
 
-  localStorage.setItem(
-    "preguntasFalladas",
-    JSON.stringify(falladas)
-  );
+  localStorage.setItem("preguntasFalladas", JSON.stringify(falladas));
 }
 
 function guardarEstadisticaPregunta(pregunta, correcta){
@@ -419,7 +439,7 @@ function activarBuscador(){
 
       return textoCompleto.includes(termino);
 
-    }).slice(0,25);
+    }).slice(0, 25);
 
     if(encontrados.length === 0){
 
@@ -443,14 +463,13 @@ function activarBuscador(){
           ${p.materia} - Pregunta ${p.numero}
         </div>
         <div class="resultado-pregunta">
-          ${p.pregunta.substring(0,120)}...
+          ${p.pregunta.substring(0, 120)}...
         </div>
       `;
 
-      div.onclick = () => irAPregunta(p);
+      div.addEventListener("click", () => irAPregunta(p));
 
       resultados.appendChild(div);
-
     });
   });
 }
@@ -473,6 +492,5 @@ function irAPregunta(preguntaObjetivo){
   detenerTimer();
 
   mostrarPantalla("quiz");
-
   mostrarPregunta();
 }
