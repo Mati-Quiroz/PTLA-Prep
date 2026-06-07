@@ -1,0 +1,17 @@
+{
+  "name": "PTLA Practice",
+  "short_name": "PTLA",
+  "description": "Banco de preguntas PTLA por Matías Quiroz",
+  "start_url": "/PTLA-Prep/",
+  "display": "standalone",
+  "background_color": "#80EF80",
+  "theme_color": "#80EF80",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "PTLA PRACTICE.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
