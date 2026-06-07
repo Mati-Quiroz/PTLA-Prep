@@ -425,3 +425,42 @@ body{
     }
 }
 
+#inicio{
+    padding:18px 14px;
+}
+
+#inicio .logo{
+    width:110px !important;
+    max-width:32% !important;
+    margin:5px auto 12px auto !important;
+}
+
+#inicio h1{
+    font-size:30px !important;
+    margin:10px 0 4px 0 !important;
+}
+
+#inicio .subtitulo{
+    font-size:15px !important;
+    margin-bottom:20px !important;
+}
+
+.buscador-box{
+    margin-top:10px !important;
+}
+
+@media(max-width:600px){
+    #inicio .logo{
+        width:90px !important;
+        max-width:28% !important;
+    }
+
+    #inicio h1{
+        font-size:26px !important;
+    }
+
+    #buscador{
+        font-size:16px;
+        padding:13px 18px;
+    }
+}
