@@ -27,6 +27,7 @@ function cargarMaterias() {
     contenedor.appendChild(btn);
 
   });
+activarBuscador();
 }
 
 function iniciarMateria(materia){
@@ -177,3 +178,83 @@ document
   fallos = 0;
 
 });
+function activarBuscador(){
+
+  const input = document.getElementById("buscador");
+  const resultados = document.getElementById("resultadosBusqueda");
+
+  if(!input || !resultados) return;
+
+  input.addEventListener("input", () => {
+
+    const termino = input.value.trim().toLowerCase();
+    resultados.innerHTML = "";
+
+    if(termino.length < 3){
+      return;
+    }
+
+    const encontrados = banco.filter(p => {
+
+      const textoCompleto = `
+        ${p.materia}
+        ${p.pregunta}
+        ${Object.values(p.opciones || {}).join(" ")}
+        ${p.respuesta_texto || ""}
+      `.toLowerCase();
+
+      return textoCompleto.includes(termino);
+
+    }).slice(0, 25);
+
+    if(encontrados.length === 0){
+      resultados.innerHTML = `
+        <div class="resultado-busqueda">
+          No se encontraron resultados.
+        </div>
+      `;
+      return;
+    }
+
+    encontrados.forEach(p => {
+
+      const div = document.createElement("div");
+      div.className = "resultado-busqueda";
+
+      div.innerHTML = `
+        <div class="resultado-materia">
+          ${p.materia} - Pregunta ${p.numero}
+        </div>
+        <div class="resultado-pregunta">
+          ${p.pregunta.substring(0,120)}...
+        </div>
+      `;
+
+      div.onclick = () => irAPregunta(p);
+
+      resultados.appendChild(div);
+
+    });
+
+  });
+}
+
+function irAPregunta(preguntaObjetivo){
+
+  preguntasMateria = banco.filter(
+    p => p.materia === preguntaObjetivo.materia
+  );
+
+  indice = preguntasMateria.findIndex(
+    p => p.id === preguntaObjetivo.id
+  );
+
+  aciertos = 0;
+  fallos = 0;
+
+  document.getElementById("inicio").style.display = "none";
+  document.getElementById("final").style.display = "none";
+  document.getElementById("quiz").style.display = "block";
+
+  mostrarPregunta();
+}
