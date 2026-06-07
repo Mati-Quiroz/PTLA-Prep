@@ -1,3 +1,5 @@
+alert("APP.JS CARGADO");
+
 let banco = [];
 let preguntasMateria = [];
 let indice = 0;
