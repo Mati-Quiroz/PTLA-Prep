@@ -114,10 +114,20 @@ function asignarClick(id, accion) {
 }
 
 function mostrarPantalla(pantalla) {
-  const menuPrincipal = document.getElementById("menuPrincipal");
-  const inicio = document.getElementById("inicio");
-  const quiz = document.getElementById("quiz");
-  const final = document.getElementById("final");
+  ["menuPrincipal", "inicio", "quiz", "final"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.setAttribute("style", "display:none !important");
+  });
+
+  const pantallaActiva = document.getElementById(pantalla);
+  if (pantallaActiva) {
+    if (pantalla === "menuPrincipal") {
+      pantallaActiva.setAttribute("style", "display:flex !important");
+    } else {
+      pantallaActiva.setAttribute("style", "display:block !important");
+    }
+  }
+}
 
   if (menuPrincipal) menuPrincipal.style.display = "none";
   if (inicio) inicio.style.display = "none";
