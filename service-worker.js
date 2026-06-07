@@ -1,55 +1,38 @@
 const CACHE_NAME = "ptla-practice-v103";
 
 const urlsToCache = [
-  "./",
-  "./index.html",
-  "./style.css",
-  "./app.js",
-  "./banco_preguntas_ptla.json",
-  "./icon-512.png",
-  "./manifest.json"
+  "/PTLA-Prep/",
+  "/PTLA-Prep/index.html",
+  "/PTLA-Prep/style.css",
+  "/PTLA-Prep/app.js",
+  "/PTLA-Prep/banco_preguntas_ptla.json",
+  "/PTLA-Prep/icon-512.png",
+  "/PTLA-Prep/manifest.json"
 ];
 
 self.addEventListener("install", event => {
   self.skipWaiting();
-
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
+    caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
   );
 });
 
 self.addEventListener("activate", event => {
   event.waitUntil(
-    caches.keys()
-      .then(keys => {
-        return Promise.all(
-          keys.map(key => {
-            if (key !== CACHE_NAME) {
-              return caches.delete(key);
-            }
-          })
-        );
-      })
-      .then(() => self.clients.claim())
+    caches.keys().then(keys =>
+      Promise.all(keys.map(key => {
+        if (key !== CACHE_NAME) return caches.delete(key);
+      }))
+    ).then(() => self.clients.claim())
   );
 });
+
 self.addEventListener("fetch", event => {
-
-  if (event.request.method !== "GET") {
-    return;
-  }
-
   event.respondWith(
     fetch(event.request)
       .then(response => {
-        const responseClone = response.clone();
-
-        caches.open(CACHE_NAME)
-          .then(cache => {
-            cache.put(event.request, responseClone);
-          });
-
+        const clone = response.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
         return response;
       })
       .catch(() => caches.match(event.request))
