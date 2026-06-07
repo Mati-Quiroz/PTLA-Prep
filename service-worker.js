@@ -1,4 +1,4 @@
-const CACHE_NAME = "ptla-practice-v2026-01";
+const CACHE_NAME = "ptla-practice-v2026-02";
 
 const urlsToCache = [
   "./",
@@ -34,8 +34,12 @@ self.addEventListener("activate", event => {
       .then(() => self.clients.claim())
   );
 });
-
 self.addEventListener("fetch", event => {
+
+  if (event.request.method !== "GET") {
+    return;
+  }
+
   event.respondWith(
     fetch(event.request)
       .then(response => {
