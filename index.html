@@ -4,79 +4,46 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PTLA Practice</title>
-
 <link rel="stylesheet" href="style.css">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#80EF80">
-
-<!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-VHVES2FMW5"></script>
-
 <script>
 window.dataLayer = window.dataLayer || [];
-
-function gtag(){
-  dataLayer.push(arguments);
-}
-
+function gtag(){ dataLayer.push(arguments); }
 gtag('js', new Date());
-
 gtag('config', 'G-VHVES2FMW5');
 </script>
-
 </head>
 <body>
 
 <!-- MENÚ PRINCIPAL -->
 <div id="menuPrincipal">
-
   <img src="icon-512.png" alt="Logo PTLA" class="logo logo-principal">
-
   <h1>PTLA PRACTICE</h1>
-
   <p class="subtitulo">by Matías Quiroz</p>
-
   <div class="menu-opciones">
     <button id="btnEstudio">ESTUDIO POR MATERIAS</button>
     <button id="btnTest">MODO TEST</button>
   </div>
-
   <p class="aviso-legal">Aviso: Esta aplicación es una herramienta de apoyo al estudio basada en información pública. No es un instrumento oficial de preparación ni certificación. Consulte siempre la bibliografía y normativa oficial vigente publicada por la autoridad aeronáutica correspondiente.</p>
-
 </div>
 
 <!-- ESTUDIO POR MATERIAS -->
 <div id="inicio" style="display:none;">
-
   <img src="icon-512.png" alt="Logo PTLA" class="logo logo-pequeno">
-
   <h1>ESTUDIO POR MATERIAS</h1>
-
   <div class="buscador-box">
-
-    <input 
-      type="text" 
-      id="buscador" 
-      placeholder="Buscar palabra clave..."
-    >
-
+    <input type="text" id="buscador" placeholder="Buscar palabra clave...">
     <div id="resultadosBusqueda"></div>
-
   </div>
-
   <h2>Selecciona una materia</h2>
-
   <div id="materias"></div>
-
-  <button id="volverMenuDesdeMaterias" class="boton-secundario">
-    Volver al menú principal
-  </button>
-
+  <button id="volverMenuDesdeMaterias" class="boton-secundario">Volver al menú principal</button>
 </div>
 
 <!-- QUIZ / TEST -->
 <div id="quiz" style="display:none;">
-
   <div class="barra">
     <div id="contador">Pregunta 0/0</div>
     <div id="aciertos">Aciertos: 0</div>
@@ -84,39 +51,31 @@ gtag('config', 'G-VHVES2FMW5');
     <div id="porcentaje">0%</div>
     <div id="timer">00:00</div>
   </div>
-
   <div class="pregunta-container">
     <h2 id="pregunta"></h2>
+    <button id="btnVerFigura" style="display:none;">📊 Ver Figura</button>
     <div id="opciones"></div>
   </div>
-
   <div id="resultado"></div>
-
   <button id="siguiente">Siguiente</button>
   <button id="volver">Volver a materias</button>
-
 </div>
 
 <!-- RESULTADO FINAL -->
 <div id="final" style="display:none;">
-
   <h1 id="tituloFinal">Resultado Final</h1>
-
   <div id="resumen"></div>
-
-  <button id="volverMenuFinal">
-    Volver al menú principal
-  </button>
-
+  <button id="volverMenuFinal">Volver al menú principal</button>
 </div>
 
-<script src="app.js"></script>
+<!-- MODAL FIGURA -->
+<div id="modalFigura" style="display:none;"></div>
 
+<script src="app.js"></script>
 <script>
 if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("./service-worker.js");
+  navigator.serviceWorker.register("./service-worker.js");
 }
 </script>
-
 </body>
 </html>
