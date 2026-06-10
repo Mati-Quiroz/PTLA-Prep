@@ -12,7 +12,36 @@ document.addEventListener("DOMContentLoaded", iniciarApp);
 
 function iniciarApp() {
   configurarBotonesPrincipales();
+  crearModal();
   cargarBancoPreguntas();
+}
+
+function crearModal() {
+  const modal = document.createElement("div");
+  modal.id = "modalFigura";
+  modal.innerHTML = `
+    <div id="modalContenido">
+      <button id="cerrarModal">✕</button>
+      <img id="modalImagen" src="" alt="Figura">
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  document.getElementById("cerrarModal").onclick = cerrarModal;
+  modal.onclick = function(e) {
+    if (e.target === modal) cerrarModal();
+  };
+}
+
+function abrirModal(pagina) {
+  const modal = document.getElementById("modalFigura");
+  const img = document.getElementById("modalImagen");
+  img.src = `./figuras/figura-${pagina}.jpg`;
+  modal.setAttribute("style", "display:flex !important");
+}
+
+function cerrarModal() {
+  document.getElementById("modalFigura").setAttribute("style", "display:none !important");
 }
 
 function cargarBancoPreguntas() {
@@ -115,13 +144,25 @@ function iniciarModoTest() {
 function mostrarPregunta() {
   const preguntaActual = preguntasMateria[indice];
   if (!preguntaActual) { finalizar(); return; }
+
   document.getElementById("contador").innerText = `Pregunta ${indice + 1}/${preguntasMateria.length}`;
   document.getElementById("aciertos").innerText = `Aciertos: ${aciertos}`;
   document.getElementById("fallos").innerText = `Fallos: ${fallos}`;
   actualizarPorcentaje();
   document.getElementById("pregunta").innerText = preguntaActual.pregunta;
+
   const resultado = document.getElementById("resultado");
   resultado.innerHTML = ""; resultado.className = "";
+
+  // Botón Ver Figura si la pregunta tiene pagina_pdf
+  const btnFigura = document.getElementById("btnVerFigura");
+  if (preguntaActual.pagina_pdf) {
+    btnFigura.setAttribute("style", "display:block !important");
+    btnFigura.onclick = () => abrirModal(preguntaActual.pagina_pdf);
+  } else {
+    btnFigura.setAttribute("style", "display:none !important");
+  }
+
   const opcionesDiv = document.getElementById("opciones");
   opcionesDiv.innerHTML = "";
   Object.entries(preguntaActual.opciones).forEach(([letra, texto]) => {
