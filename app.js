@@ -8,6 +8,9 @@ let modoActual = "materia";
 let timerInterval = null;
 let segundosRestantes = 0;
 
+// Mapa figura -> página del PDF de imágenes
+const FIGURA_A_PAGINA = {"1":2,"2":2,"3":3,"4":3,"5":4,"6":4,"7":5,"8":6,"9":7,"10":8,"11":9,"12":10,"13":11,"14":12,"15":13,"16":13,"17":14,"18":15,"19":16,"20":16,"21":17,"22":17,"23":18,"24":19,"25":20,"26":21,"27":22,"28":23,"29":24,"30":25,"31":26,"32":27,"33":28,"34":29,"35":30,"36":31,"37":32,"38":33,"39":34,"40":35,"41":36,"42":37,"43":38,"44":39,"45":39,"46":40,"47":41,"48":42,"49":43,"50":43,"51":44,"52":45,"53":45,"54":46,"55":47,"56":48,"57":48,"58":49,"59":50,"60":50,"61":51,"62":51,"63":52,"64":52,"65":52,"66":53,"67":53,"68":54,"69":54,"70":55,"71":55,"72":56,"73":57,"74":57,"75":58,"76":58,"77":59,"78":59,"79":60,"80":61,"81":62,"82":63,"83":64,"84":65,"85":65,"86":66,"87":66,"88":67,"89":68,"90":69,"91":70,"92":71,"93":72,"94":73,"95":74,"96":75,"97":76,"98":77,"99":78,"100":79,"101":80,"102":81,"103":82,"104":83,"105":84,"106":85,"107":86,"108":87,"109":88,"110":89,"111":90,"112":91,"113":92,"114":93,"115":94,"116":95,"117":96,"118":97,"119":98,"120":99,"121":99,"122":99,"123":100,"124":100,"125":100,"126":101,"127":101,"128":101,"129":102,"130":102,"131":103,"132":103,"133":103,"134":103,"135":103,"136":103,"137":103,"138":103,"139":104,"140":105,"141":106,"142":106,"143":107,"144":108,"145":108,"146":108,"147":108,"148":108,"149":108,"150":108,"151":108,"152":108,"153":108,"154":108,"155":108,"156":109,"157":109};
+
 document.addEventListener("DOMContentLoaded", iniciarApp);
 
 function iniciarApp() {
@@ -26,14 +29,15 @@ function crearModal() {
     </div>
   `;
   document.body.appendChild(modal);
-
   document.getElementById("cerrarModal").onclick = cerrarModal;
   modal.onclick = function(e) {
     if (e.target === modal) cerrarModal();
   };
 }
 
-function abrirModal(pagina) {
+function abrirModal(numFigura) {
+  const pagina = FIGURA_A_PAGINA[String(numFigura)];
+  if (!pagina) return;
   const modal = document.getElementById("modalFigura");
   const img = document.getElementById("modalImagen");
   img.src = `./figuras/figura-${pagina}.jpg`;
@@ -154,9 +158,8 @@ function mostrarPregunta() {
   const resultado = document.getElementById("resultado");
   resultado.innerHTML = ""; resultado.className = "";
 
-  // Botón Ver Figura si la pregunta tiene pagina_pdf
   const btnFigura = document.getElementById("btnVerFigura");
-  if (preguntaActual.pagina_pdf) {
+  if (preguntaActual.pagina_pdf && FIGURA_A_PAGINA[String(preguntaActual.pagina_pdf)]) {
     btnFigura.setAttribute("style", "display:block !important");
     btnFigura.onclick = () => abrirModal(preguntaActual.pagina_pdf);
   } else {
